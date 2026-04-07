@@ -10,15 +10,11 @@ const sizeMap = {
   lg: "h-14 w-14 text-xl",
 };
 
-export function Avatar({ name, color, size = "md" }: AvatarProps) {
-  const initial = name.charAt(0);
-
-  return (
-    <div
-      className={`rounded-full flex items-center justify-center font-bold text-white ${sizeMap[size]}`}
-      style={{ backgroundColor: color }}
-    >
-      {initial}
-    </div>
-  );
-}
+export const Avatar = ({ name, color, size = "md" }: AvatarProps) => (
+  <div
+    className={`rounded-full flex items-center justify-center font-bold text-white ${sizeMap[size]}`}
+    style={{ backgroundColor: color }}
+  >
+    {name.charAt(0)}
+  </div>
+);

@@ -9,6 +9,7 @@ Building a parental banking app ("open-bank") for managing children's financial 
 - **Database:** MongoDB Atlas (via Mongoose 8)
 - **Deployment:** Vercel
 - **Language:** TypeScript
+- **UI Components:** shadcn/ui (Radix primitives + Tailwind)
 - **Key libs:** TanStack Query 5, Zod, date-fns, bcryptjs, jsonwebtoken
 
 ## Project Location
@@ -110,7 +111,7 @@ Two access levels:
 - API error-handling wrapper
 - Root layout with RTL (`dir="rtl"`, Hebrew font)
 - TanStack Query + Auth providers
-- Basic UI primitives (Button, Card, Input, Dialog, Spinner, Avatar)
+- shadcn/ui setup + components (Button, Card, Input, Dialog, Avatar, custom Spinner)
 
 ### Phase 2: Auth + Accounts
 - PIN auth API + login page
@@ -145,6 +146,12 @@ Two access levels:
 - Error + empty states
 
 ### Phase 7: Testing + Deploy
+- **Client-side tests** (driver + spec pattern):
+  - Each component gets `ComponentName.driver.tsx` + `ComponentName.spec.tsx`
+  - **Driver**: renders the component, mocks API calls, exposes helpers to query by `data-testid`
+  - **Spec**: uses the driver to assert on rendered output and user interactions
+  - Mock API at the fetch/network level (no mocking react-query internals)
+  - Assert existence and content via `data-testid` attributes on components
 - API integration tests (builder pattern)
 - Unit tests for interest calc, balance
 - Vercel deployment with env vars

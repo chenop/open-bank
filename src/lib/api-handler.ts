@@ -1,10 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
 import { connectDB } from "./db";
 
-type HandlerFn = (
-  req: NextRequest,
-  context: { params: Promise<Record<string, string>> }
-) => Promise<NextResponse>;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type HandlerFn = (req: NextRequest, context: any) => Promise<NextResponse>;
 
 export class ApiError extends Error {
   constructor(

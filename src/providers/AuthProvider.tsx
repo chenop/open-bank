@@ -13,7 +13,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 const TOKEN_KEY = "open-bank-token";
 
-export function AuthProvider({ children }: { children: React.ReactNode }) {
+export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
   const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
@@ -32,16 +32,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ token, isAuthenticated: !!token, login, logout }}
-    >
+    <AuthContext.Provider value={{ token, isAuthenticated: !!token, login, logout }}>
       {children}
     </AuthContext.Provider>
   );
-}
+};
 
-export function useAuth() {
+export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) throw new Error("useAuth must be used within AuthProvider");
   return context;
-}
+};

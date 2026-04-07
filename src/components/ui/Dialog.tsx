@@ -9,7 +9,7 @@ interface DialogProps {
   children: React.ReactNode;
 }
 
-export function Dialog({ open, onClose, title, children }: DialogProps) {
+export const Dialog = ({ open, onClose, title, children }: DialogProps) => {
   const dialogRef = useRef<HTMLDialogElement>(null);
 
   useEffect(() => {
@@ -43,4 +43,4 @@ export function Dialog({ open, onClose, title, children }: DialogProps) {
       </div>
     </dialog>
   );
-}
+};
