@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { useAccountList } from "@/hooks/useAccountList";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
@@ -48,26 +49,28 @@ export const AccountList = () => {
       ) : (
         <div className="space-y-3">
           {accounts.map((account) => (
-            <Card key={String(account._id)}>
-              <CardContent className="flex items-center gap-4">
-                <Avatar size="lg">
-                  <AvatarFallback style={{ backgroundColor: account.avatarColor, color: "white" }}>
-                    {account.name.charAt(0)}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex-1 min-w-0">
-                  <h3 className="font-semibold truncate">{account.name}</h3>
-                </div>
-                <div className="flex gap-2">
-                  <Button size="sm" variant="ghost" onClick={() => openEditForm(account)}>
-                    עריכה
-                  </Button>
-                  <Button size="sm" variant="destructive" onClick={() => handleDelete(account)}>
-                    מחיקה
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
+            <Link key={String(account._id)} href={`/accounts/${account._id}`}>
+              <Card className="transition-colors hover:bg-muted/50 cursor-pointer">
+                <CardContent className="flex items-center gap-4">
+                  <Avatar size="lg">
+                    <AvatarFallback style={{ backgroundColor: account.avatarColor, color: "white" }}>
+                      {account.name.charAt(0)}
+                    </AvatarFallback>
+                  </Avatar>
+                  <div className="flex-1 min-w-0">
+                    <h3 className="font-semibold truncate">{account.name}</h3>
+                  </div>
+                  <div className="flex gap-2" onClick={(e) => e.preventDefault()}>
+                    <Button size="sm" variant="ghost" onClick={() => openEditForm(account)}>
+                      עריכה
+                    </Button>
+                    <Button size="sm" variant="destructive" onClick={() => handleDelete(account)}>
+                      מחיקה
+                    </Button>
+                  </div>
+                </CardContent>
+              </Card>
+            </Link>
           ))}
         </div>
       )}

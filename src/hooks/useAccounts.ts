@@ -15,6 +15,16 @@ export const useAccounts = () => {
   });
 };
 
+export const useAccount = (id: string) => {
+  const { isAuthenticated } = useAuth();
+
+  return useQuery<IAccount>({
+    queryKey: ["accounts", id],
+    queryFn: () => apiFetch(`/api/accounts/${id}`),
+    enabled: isAuthenticated && !!id,
+  });
+};
+
 export const useCreateAccount = () => {
   const queryClient = useQueryClient();
 
