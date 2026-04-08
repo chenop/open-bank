@@ -1,10 +1,10 @@
 "use client";
 
 import { useAccountList } from "@/hooks/useAccountList";
-import { Avatar } from "@/components/ui/Avatar";
-import { Button } from "@/components/ui/Button";
-import { Card } from "@/components/ui/Card";
-import { Spinner } from "@/components/ui/Spinner";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
 import { AccountForm } from "@/components/AccountForm";
 
 export const AccountList = () => {
@@ -30,35 +30,43 @@ export const AccountList = () => {
   return (
     <div>
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-lg font-semibold text-gray-900">חשבונות</h2>
+        <h2 className="text-lg font-semibold">חשבונות</h2>
         <Button size="sm" onClick={openCreateForm}>
           חשבון חדש +
         </Button>
       </div>
 
       {accounts.length === 0 ? (
-        <Card className="text-center py-12">
-          <p className="text-gray-500">אין חשבונות עדיין</p>
-          <Button size="sm" variant="ghost" className="mt-2" onClick={openCreateForm}>
-            צור חשבון ראשון
-          </Button>
+        <Card className="py-12">
+          <CardContent className="text-center">
+            <p className="text-muted-foreground">אין חשבונות עדיין</p>
+            <Button size="sm" variant="ghost" className="mt-2" onClick={openCreateForm}>
+              צור חשבון ראשון
+            </Button>
+          </CardContent>
         </Card>
       ) : (
         <div className="space-y-3">
           {accounts.map((account) => (
-            <Card key={String(account._id)} className="flex items-center gap-4 p-4">
-              <Avatar name={account.name} color={account.avatarColor} size="lg" />
-              <div className="flex-1 min-w-0">
-                <h3 className="font-semibold text-gray-900 truncate">{account.name}</h3>
-              </div>
-              <div className="flex gap-2">
-                <Button size="sm" variant="ghost" onClick={() => openEditForm(account)}>
-                  עריכה
-                </Button>
-                <Button size="sm" variant="danger" onClick={() => handleDelete(account)}>
-                  מחיקה
-                </Button>
-              </div>
+            <Card key={String(account._id)}>
+              <CardContent className="flex items-center gap-4">
+                <Avatar size="lg">
+                  <AvatarFallback style={{ backgroundColor: account.avatarColor, color: "white" }}>
+                    {account.name.charAt(0)}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex-1 min-w-0">
+                  <h3 className="font-semibold truncate">{account.name}</h3>
+                </div>
+                <div className="flex gap-2">
+                  <Button size="sm" variant="ghost" onClick={() => openEditForm(account)}>
+                    עריכה
+                  </Button>
+                  <Button size="sm" variant="destructive" onClick={() => handleDelete(account)}>
+                    מחיקה
+                  </Button>
+                </div>
+              </CardContent>
             </Card>
           ))}
         </div>
