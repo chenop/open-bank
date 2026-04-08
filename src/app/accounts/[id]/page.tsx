@@ -7,6 +7,8 @@ import { useAuth } from "@/providers/AuthProvider";
 import { useAccountDetail } from "@/hooks/useAccountDetail";
 import { TransactionForm } from "@/components/TransactionForm";
 import { TransactionList } from "@/components/TransactionList";
+import { InvestmentForm } from "@/components/InvestmentForm";
+import { InvestmentList } from "@/components/InvestmentList";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
@@ -19,8 +21,12 @@ const AccountDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = use(params);
   const { isAuthenticated } = useAuth();
   const router = useRouter();
-  const { account, balance, transactions, isLoading, transactionType, openDeposit, openWithdraw, closeForm } =
-    useAccountDetail(id);
+  const {
+    account, balance, transactions, investments, isLoading,
+    transactionType, openDeposit, openWithdraw, closeTransactionForm,
+    showInvestmentForm, openInvestForm, closeInvestForm,
+    handleRedeem, isRedeeming,
+  } = useAccountDetail(id);
 
   useEffect(() => {
     if (!isAuthenticated) router.replace("/");
@@ -80,6 +86,15 @@ const AccountDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
           <Button className="flex-1" variant="outline" onClick={openWithdraw}>
             משיכה
           </Button>
+          <Button className="flex-1" variant="secondary" onClick={openInvestForm}>
+            השקעה
+          </Button>
+        </div>
+
+        {/* Investments */}
+        <div>
+          <h2 className="text-lg font-semibold mb-3">השקעות</h2>
+          <InvestmentList investments={investments} onRedeem={handleRedeem} isRedeeming={isRedeeming} />
         </div>
 
         {/* Transactions */}
@@ -90,7 +105,11 @@ const AccountDetailPage = ({ params }: { params: Promise<{ id: string }> }) => {
       </main>
 
       {transactionType && (
-        <TransactionForm accountId={id} type={transactionType} onClose={closeForm} />
+        <TransactionForm accountId={id} type={transactionType} onClose={closeTransactionForm} />
+      )}
+
+      {showInvestmentForm && (
+        <InvestmentForm accountId={id} onClose={closeInvestForm} />
       )}
     </div>
   );
